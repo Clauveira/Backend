@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TodoApi
 {
@@ -32,6 +33,12 @@ namespace TodoApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoApi", Version = "v1" });
             });
+
+            services.AddDbContext<TodoContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("TodoContext")));
+
+            services.AddDbContext<BackendContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("BackendContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
